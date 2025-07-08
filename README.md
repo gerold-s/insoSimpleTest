@@ -1,76 +1,76 @@
 # Playwright E2E Test Framework
 
-本项目是基于 [Playwright](https://playwright.dev/) 的端到端（E2E）测试框架，采用 Page Object 模式，适用于 Web 应用的自动化测试。
+This project is an end-to-end (E2E) testing framework based on [Playwright](https://playwright.dev/), using the Page Object Model, suitable for automated testing of web applications.
 
-## 目录结构
+## Directory Structure
 
 ```
 .
-├── base/                # 测试基类与全局 hooks
-├── e2e/                 # 端到端测试用例
-├── pages/               # Page Object 类（页面元素与选择器抽象）
-├── reports/             # 测试报告
-├── playwright-report/   # Playwright 默认 HTML 报告
-├── utils/               # 工具类（如有）
-├── playwright.config.ts # Playwright 配置
-├── package.json         # 项目依赖
-└── README.md            # 项目说明
+├── base/                # Test base classes and global hooks
+├── e2e/                 # End-to-end test cases
+├── pages/               # Page Object classes (element and selector abstraction)
+├── reports/             # Test reports
+├── playwright-report/   # Playwright default HTML report
+├── utils/               # Utility classes (if any)
+├── playwright.config.ts # Playwright configuration
+├── package.json         # Project dependencies
+└── README.md            # Project documentation
 ```
 
-## 安装依赖
+## Install Dependencies
 
 ```sh
 npm install
 ```
 
-## 运行测试
+## Run Tests
 
 ```sh
 npx playwright test
 ```
 
-## 查看测试报告
+## View Test Reports
 
-- 运行测试后，Playwright 会自动生成 HTML 报告在 `playwright-report/` 目录。
-- 查看报告：
+- After running tests, Playwright will automatically generate an HTML report in the `playwright-report/` directory.
+- To view the report:
   ```sh
   npx playwright show-report
   ```
 
-## Page Object 模式
+## Page Object Model
 
-- 所有页面元素的 selector 和文本常量统一抽象在 `pages/` 目录下的类中（如 `InsomniaHome`）。
-- 测试用例通过这些类来引用页面元素，提升可维护性和复用性。
+- All page element selectors and text constants are abstracted in classes under the `pages/` directory (e.g., `InsomniaHome`).
+- Test cases reference these classes to access page elements, improving maintainability and reusability.
 
-示例（`e2e/example.spec.ts`）：
+Example (`e2e/example.spec.ts`):
 
 ```ts
 import { test, expect } from '@playwright/test';
 import { InsomniaHome } from '../pages/insomniaHome';
 
-// 检查页面标题
+// Check page title
 test('has title', async ({ page }) => {
   await expect(page).toHaveTitle(/Insomnia/);
 });
 
-// 检查欢迎文本
+// Check welcome text
 test('has welcome text', async ({ page }) => {
   await expect(page.locator(InsomniaHome.welcomeTextSelector)).toBeVisible();
 });
 
-// 点击 AI Runners 链接并检查跳转文本
+// Click AI Runners link and check redirected text
 test('click AI Runners', async ({ page }) => {
   await page.locator(InsomniaHome.aiRunnersLinkSelector).click();
   await expect(page.locator(InsomniaHome.accelerateYourAITextSelector)).toBeVisible();
 });
 ```
 
-## 扩展说明
+## Additional Notes
 
-- 新增页面时，在 `pages/` 目录下新建对应的 Page Object 类，统一管理 selector 和文本。
-- 新增测试用例时，在 `e2e/` 目录下编写，直接引用 Page Object 类。
+- When adding a new page, create the corresponding Page Object class under the `pages/` directory to manage selectors and text constants centrally.
+- When adding a new test case, write it under the `e2e/` directory and reference the Page Object classes directly.
 
 ---
 
-如需自定义配置或集成更多功能，请参考 [Playwright 官方文档](https://playwright.dev/)。  
+For custom configurations or more features, please refer to the [Playwright official documentation](https://playwright.dev/).  
 **Happy Testing!** 

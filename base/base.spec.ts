@@ -21,9 +21,5 @@ base.afterEach(async ({ page }, testInfo) => {
   }
 }); 
 
-//Wait for the element to be visible
-export async function waitCheckVisible(page: Page, selector: string) {
-  await expect(page.locator(selector)).toBeVisible();
-}
 
 export { expect };
